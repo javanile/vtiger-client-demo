@@ -12,8 +12,8 @@ $resp = $client->login('admin', 'LmUOHAAFAeIbQMyM');
 
 echo "<b>Login response:</b> "; var_dump($resp);
 
-$reps = $client->upload([
-    'notes_title' => 'My document',
+$resp = $client->upload([
+    'notes_title' => 'This is the document',
     'assigned_user_id' => 1,
     'filelocationtype' => 'I',
     'filestatus' => 1,
