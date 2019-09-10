@@ -1,0 +1,53 @@
+version: '3'
+
+services:
+
+  client:
+    build: .
+    ports:
+      - "49090:80"
+    volumes:
+      - ./:/var/www/html
+    links:
+      - vtiger
+
+  vtiger:
+    image: javanile/vtiger:7.1.0
+    environment:
+      - VT_DEBUG=false
+      - MYSQL_HOST=mysql
+      - MYSQL_DATABASE=vtiger
+      - MYSQL_ROOT_PASSWORD=secret
+    ports:
+      - "49091:80"
+    volumes:
+      - ./:/app
+      - ./volumes/logs:/var/www/html/logs
+      - ./volumes/storage:/var/www/html/storage
+    links:
+      - mysql
+      - adminer
+
+  mysql:
+    image: mysql:5.5
+    environment:
+      - MYSQL_DATABASE=vtiger
+      - MYSQL_ROOT_PASSWORD=secret
+    volumes:
+      - mysql:/var/lib/mysql:rw
+
+  adminer:
+    image: javanile/adminer
+    environment:
+      - MYSQL_DATABASE=vtiger
+      - MYSQL_ROOT_PASSWORD=secret
+    ports:
+      - "48081:8080"
+
+  composer:
+    image: composer
+    volumes:
+      - ./:/app
+
+volumes:
+  mysql:

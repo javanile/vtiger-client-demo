@@ -1,0 +1,5 @@
+{
+  "require": {
+    "javanile/vtiger-client": "^0.0.13"
+  }
+}
